@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\User;
+use App\Notifications\WelcomeNotification;
 use Illuminate\Foundation\Inspiring;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -17,3 +20,7 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
+
+Artisan::command('mailu', function() {
+    Notification::send(User::exceptAdmin()->get(), new WelcomeNotification());
+});

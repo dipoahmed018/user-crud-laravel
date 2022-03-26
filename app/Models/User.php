@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Mail\WelcomeUser;
+use App\Notifications\WelcomeNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -41,4 +44,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    //observers
+
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            $user->notify(new WelcomeNotification());
+        });
+    }
+
+    public function scopeExceptAdmin($query)
+    {
+        return $query->where('is_admin', 0);
+    }
 }

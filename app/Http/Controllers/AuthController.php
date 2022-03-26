@@ -43,10 +43,9 @@ class AuthController extends Controller
         $input = $request->only(['name', 'email', 'password']);
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $success['token'] =  $user->createToken('MyAuthApp')->plainTextToken;
-        $success['name'] =  $user->name;
+        $user['token'] =  $user->createToken('user')->plainTextToken;
 
-        return $this->sendResponse($success, 'User created successfully.');
+        return $this->success($user, 201);
     }
 
     public function logout(Request $request)
