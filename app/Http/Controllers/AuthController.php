@@ -19,9 +19,9 @@ class AuthController extends Controller
 
         if ($user || Hash::check($request->password, $user->password)) {
             $token =  $user->createToken('user')->plainTextToken;
-            return $this->success(['user' => $user, 'token' => $token], 200);
+            return $this->success("Login Successful", 200, ['user' => $user, 'token' => $token]);
         } else {
-            return $this->failed(['message' => 'Provided credentials are invalid'], 422);
+            return $this->failed('Provided credentials are invalid', 422);
         }
     }
 
@@ -31,9 +31,9 @@ class AuthController extends Controller
 
         if ($user || Hash::check($request->password, $user->password)) {
             $token =  $user->createToken('user')->plainTextToken;
-            return $this->success(['user' => $user, 'token' => $token], 200);
+            return $this->success("Login successful", 200, ['user' => $user, 'token' => $token]);
         } else {
-            return $this->failed(['message' => 'Provided credentials are invalid'], 422);
+            return $this->failed('Provided credentials are invalid', 422);
         }
     }
 
@@ -45,18 +45,18 @@ class AuthController extends Controller
         $user = User::create($input);
         $user['token'] =  $user->createToken('user')->plainTextToken;
 
-        return $this->success($user, 201);
+        return $this->success('User creation successfull', 201, $user);
     }
 
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
-        return $this->success(['message' => 'Logout successfull']);
+        return $this->success('Logout successfull');
     }
 
     public function logoutForEveryDevice(Request $request)
     {
         $request->user()->tokens()->delete();
-        return $this->success(['message' => 'Logout from all devices successfull']);
+        return $this->success('Logout from all devices successfull');
     }
 }

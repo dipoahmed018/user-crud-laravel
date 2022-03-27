@@ -7,15 +7,15 @@ namespace App\Trait;
  */
 trait ApiResponse
 {
-    public function failed($error = "Something went wrong!", $code = 500, $status = 'failed')
+    public function failed($message = "Something went wrong!", $code = 500, $error = [])
     {
-        $response = ['error' => $error, 'status' => $status];
+        $response = ['errors' => $error, 'message' => $message];
         return response()->json($response, $code);
     }
 
-    public function success($data = [], $code = 200, $status = 'success')
+    public function success($message = 'success', $code = 200, $data = [])
     {
-        $response = ['data' => $data, 'status' => $status];
+        $response = ['data' => $data, 'message' => $message];
         return response()->json($response, $code);
     }
 }
