@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,8 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => 'guest'], function(){
+    Route::post('signin/admin', [AuthController::class, 'signinAdmin'])->name('sign.admin');
+    Route::post('login', [AuthController::class, 'signin'])->name('signin');
+    Route::post('signup', [AuthController::class, 'signup'])->name('signup');
+});
+
+Route::group(['middleware' => 'auth:sanctum'], function(){
+    Route::get('user/{user}', [UserController::class, 'show']);
+    Route::post('logout', [AuthController::class, 'logout']);
 });
 
 Route::group(['prefix' => 'admin','middleware' => 'auth:sanctum,admin'], function(){
