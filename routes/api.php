@@ -16,17 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'guest'], function(){
+Route::group(['middleware' => 'guest'], function () {
     Route::post('signin/admin', [AuthController::class, 'signinAdmin'])->name('sign.admin');
-    Route::post('login', [AuthController::class, 'signin'])->name('signin');
+    Route::post('signin', [AuthController::class, 'signin'])->name('signin');
     Route::post('signup', [AuthController::class, 'signup'])->name('signup');
 });
 
-Route::group(['middleware' => 'auth:sanctum'], function(){
-    Route::get('user/{user}', [UserController::class, 'show']);
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('user', fn (Request $request) => ['data' => $request->user()])->name('user.info');
     Route::post('logout', [AuthController::class, 'logout']);
 });
 
-Route::group(['prefix' => 'admin','middleware' => 'auth:sanctum,admin'], function(){
+Route::group(['prefix' => 'admin', 'middleware' => ['auth:sanctum', 'admin']], function () {
     Route::apiResource('users', UserController::class);
 });
