@@ -24,7 +24,7 @@ class SendWelcomeMessage implements ShouldQueue
      */
     public function __construct()
     {
-        $this->onQueue(env('MAIL_QUEUE', 'email'));
+    
     }
 
     /**
