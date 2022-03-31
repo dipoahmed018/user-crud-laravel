@@ -12,4 +12,4 @@
 1. Update these enviorement variables (DB_CONNECTION, DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD) as per your server
 2. Create a database named "user_management" in your database
 3. Run this command "php artisan migrate --seed"
-4. Run this command "php artisan serve"
+4. Run this command "php artisan serve --host 127.0.0.2:80"
